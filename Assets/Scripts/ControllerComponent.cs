@@ -31,6 +31,14 @@ public class ControllerComponent : MonoBehaviour
 		{
 			cm.moveEntity(Direction.Left, entity);
 		}
+
+		if (Input.GetKeyDown (KeyCode.J))
+		{
+			Debug.Log("Entity #"+entity.ID+" has fired an attack");
+			GetComponent<AudioSource>().Play();
+			cm.attack(entity.basicAttackComponent, entity);
+		}
+
 	}
 }
 

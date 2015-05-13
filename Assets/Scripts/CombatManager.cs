@@ -8,6 +8,9 @@ public class CombatManager : MonoBehaviour
 	public float heightOffset = 1.0f;
 	
 	private PanelComponent[,] panels;
+	public ArrayList allEntities = new ArrayList();
+
+	private int nextID = 1000;
 	
 	public void Initialize(int rows, int columns)
 	{
@@ -20,8 +23,32 @@ public class CombatManager : MonoBehaviour
 				panels[x,y] = (Instantiate(tilePrefab, new Vector3(x * spacing, y * spacing * 0.6f), Quaternion.identity) as GameObject).GetComponent<PanelComponent>();
 			}
 		}
+		GetComponent<AudioSource>().Play();
 	}
-	
+
+	public void registerEntity(EntityComponent e){
+		e.ID = nextID;
+		nextID += 1;
+		allEntities.Add(e);
+		Debug.Log ("Entity #"+e.ID+" has been registered with the CombatManager");
+	}
+
+	public void attack(AttackComponent a, EntityComponent entity){
+		//applies the attack to all entities who did not fire it
+		ArrayList toKill = new ArrayList();
+		foreach (EntityComponent e in allEntities){
+			if(!e.Equals(entity)){
+				if(!e.takeDamage(a.damage)){
+					Debug.Log("Entity was killed!");
+					toKill.Add (e);
+				}
+			}
+		}
+		foreach (EntityComponent e in toKill){
+			allEntities.Remove(e);
+		}
+	}
+
 	public void moveEntity(Direction direction, EntityComponent entity)
 	{
 		int xOffset = 0;

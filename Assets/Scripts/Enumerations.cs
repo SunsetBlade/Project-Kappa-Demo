@@ -7,4 +7,4 @@ public enum Direction {Up, Down, Right, Left};
 public enum EntityState {Floating, Underground, Flying, Normal};
 public enum HitboxState {Normal, Invincible, Invisible, Reduced};
 public enum TileState {Normal, Cracked, Broken, Hole, Grass, Poison, Water, DarkHole, Lava};
-
+public enum Element {Fire, Electric, Water, Grass};
